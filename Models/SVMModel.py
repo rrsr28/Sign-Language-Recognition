@@ -1,10 +1,8 @@
 import pickle
-import numpy as np
 import pandas as pd
 import seaborn as sns
 from sklearn.svm import SVC
 import matplotlib.pyplot as plt
-from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, f1_score, recall_score, precision_score
 
