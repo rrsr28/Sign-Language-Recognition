@@ -18,7 +18,7 @@ def create_folder(folder_name):
 st.title("Sign Language Image Dataset Collector")
 st.subheader("Capture hand sign images for your Train dataset.")
 
-folder = "Dataset/Images/"
+folder = "Datasets/Images/"
 folder += st.text_input("Enter the label for the dataset:", key="folder_input")
 
 if folder and st.button("Capture Dataset", key="capture_button"):

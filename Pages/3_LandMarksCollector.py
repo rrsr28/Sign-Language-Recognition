@@ -63,7 +63,7 @@ def image_processed(file_path):
 
 def make_csv():
     
-    mypath = 'Dataset/Images'
+    mypath = 'Datasets/Images'
     file_name = open('Dataset.csv', 'w')
 
     for each_folder in os.listdir(mypath):
