@@ -17,7 +17,7 @@ data = pd.read_csv('Dataset.csv')
 data.columns = columns
 
 # Add "No Hands Detected" for rows that are full of zeroes (excluding the label column)
-data.loc[data.iloc[:, :-1].eq(0).all(axis=1), 'label'] = 'No Hands Detected'
+data.loc[data.iloc[:, :-1].eq(0).all(axis=1), 'label'] = 'No Hand Detected'
 
 X = data.iloc[:, :-1]
 Y = data.iloc[:, -1]
