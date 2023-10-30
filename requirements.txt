@@ -1,0 +1,7 @@
+mediapipe
+opencv-python
+numpy
+streamlit
+pandas
+seaborn
+scikit-learn
