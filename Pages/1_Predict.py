@@ -6,11 +6,9 @@ import streamlit as st
 import mediapipe as mp
 from threading import Thread
 
-# Load the SVM model
 with open('Models/SVMModel.pkl', 'rb') as f:
     svm = pickle.load(f)
 
-# Function to process the image and get hand landmarks
 def image_processed(hand_img):
     img_rgb = cv2.cvtColor(hand_img, cv2.COLOR_BGR2RGB)
     img_flip = cv2.flip(img_rgb, 1)
