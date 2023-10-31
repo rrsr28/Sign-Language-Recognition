@@ -40,12 +40,11 @@ class SVMModel:
     def save_model(self, model_filename):
         pickle.dump(self.svm, open(model_filename, 'wb'))
 
-if __name__ == "__main__":
-    # Replace 'Dataset.csv' with the actual dataset file path
-    svm = SVMModel('Dataset.csv')
-    accuracy, f1, recall, precision = svm.evaluate_model()
-    print("Accuracy:", accuracy)
-    print("F1 Score:", f1)
-    print("Recall Score:", recall)
-    print("Precision Score:", precision)
-    svm.save_model('SVMModel.pkl')
+
+svm = SVMModel('Dataset.csv')
+accuracy, f1, recall, precision = svm.evaluate_model()
+print("Accuracy:", accuracy)
+print("F1 Score:", f1)
+print("Recall Score:", recall)
+print("Precision Score:", precision)
+svm.save_model('SVMModel.pkl')

@@ -102,8 +102,10 @@ def make_csv():
     file_name.close()
     st.success('CSV Created Successfully !')
 
-if __name__ == "__main__":
-    make_csv()
 
-    df = pd.read_csv('Dataset.csv', header=None, names=columns)
-    st.dataframe(df)
+make_csv()
+df = pd.read_csv('Dataset.csv', header=None, names=columns)
+st.dataframe(df)
+
+svm = SVMModel('Dataset.csv')
+svm.save_model('Models/SVMModel.pkl')
