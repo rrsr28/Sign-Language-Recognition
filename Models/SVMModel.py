@@ -25,7 +25,7 @@ class SVMModelc:
         Y = self.data.iloc[:, -1]
 
         X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
-        self.svm = SVC(C=10, gamma=0.1, kernel='rbf')
+        self.svm = SVC(C=10, gamma=0.1, kernel='rbf', probability=True)  # Enable probability estimates
         self.svm.fit(X_train, y_train)
 
         y_pred = self.svm.predict(X_test)
@@ -42,3 +42,5 @@ class SVMModelc:
     def save_model(self, model_filename):
         pickle.dump(self.svm, open(model_filename, 'wb'))
 
+    def load_model(self, model_filename):
+        self.svm = pickle.load(open(model_filename, 'rb'))
