@@ -47,7 +47,7 @@ def image_processed(hand_img):
 
 st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
 
-st.title("Sign Language Recognition")
+st.markdown("""<h1 style='text-align: center;'>Sign Language Recognition</h1><hr><br>""", unsafe_allow_html=True)
 st.subheader("Predict hand signs using the trained model.")
 
 st.write("""

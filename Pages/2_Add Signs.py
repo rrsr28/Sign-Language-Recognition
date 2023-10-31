@@ -15,7 +15,7 @@ def create_folder(folder_name):
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
-st.title("Sign Language Image Dataset Collector")
+st.markdown("""<h1 style='text-align: center;'>Sign Language Image Dataset Collector</h1><hr><br>""", unsafe_allow_html=True)
 st.subheader("Capture hand sign images for your Train dataset.")
 
 folder = "Datasets/Images/"

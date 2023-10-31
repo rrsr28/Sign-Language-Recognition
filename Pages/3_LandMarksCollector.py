@@ -11,7 +11,7 @@ from Models.SVMModel import SVMModelc
 # Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
 st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
 
-st.title("Sign Language CSV Dataset Collector")
+st.markdown("""<h1 style='text-align: center;'>Sign Language CSV Dataset Collector</h1><hr><br>""", unsafe_allow_html=True)
 st.subheader("Get the landmark points and their components for your dataset.") 
 
 columns = []
