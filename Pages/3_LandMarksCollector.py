@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import mediapipe as mp
+from sklearn.model_selection import GridSearchCV
 
 from Models import SVMModel
 from Models.SVMModel import SVMModelc
@@ -111,4 +112,6 @@ make_csv()
 df = pd.read_csv('Dataset.csv', header=None, names=columns)
 st.dataframe(df)
 
-build_model_svc()
+#build_model_svc()
+# {'C': 10, 'degree': 2, 'gamma': 1, 'kernel': 'poly'}
+# 0.9835897435897436

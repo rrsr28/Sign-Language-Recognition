@@ -2,13 +2,50 @@ import os
 import pickle
 import pandas as pd
 from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
 
 class SVMModelc:
+
+    def bestModel(self):
+        columns = []
+        for i in range(1, 22):
+            columns.extend([f'landmark_{i}x', f'landmark{i}y', f'landmark{i}_z'])
+        columns.append('label')
+
+        data = pd.read_csv(self.dataset_file)
+        data.columns = columns
+
+        X = data.iloc[:, :-1]
+        Y = data.iloc[:, -1]
+
+        X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+
+        param_grid = {
+            'C': [0.1, 1, 10],
+            'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
+            'gamma': [0.01, 0.1, 1],
+            'degree': [2, 3, 4]
+        }
+
+        grid_search = GridSearchCV(SVC(), param_grid, cv=5, scoring='accuracy')
+        grid_search.fit(X_train, y_train)
+
+        best_params = grid_search.best_params_
+
+        best_svm = SVC(**best_params)
+        best_svm.fit(X_train, y_train)
+        y_pred = best_svm.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
+
+        print(best_params)
+        print(accuracy)
+
+        return best_svm
+
     def __init__(self, dataset_file):
         self.dataset_file = dataset_file
-        self.dataset_file = os.path.abspath(self.dataset_file)
         self.svmodel()
 
     def svmodel(self):
@@ -25,10 +62,11 @@ class SVMModelc:
         Y = self.data.iloc[:, -1]
 
         X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
-        self.svm = SVC(C=10, gamma=0.1, kernel='rbf', probability=True)  # Enable probability estimates
-        self.svm.fit(X_train, y_train)
 
-        y_pred = self.svm.predict(X_test)
+        self.best_svm = self.bestModel()
+        self.best_svm.fit(X_train, y_train)
+
+        y_pred = self.best_svm.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
         f1 = f1_score(y_test, y_pred, average='weighted')
         recall = recall_score(y_test, y_pred, average='weighted')
@@ -40,7 +78,11 @@ class SVMModelc:
         print("Precision Score:", precision)
 
     def save_model(self, model_filename):
-        pickle.dump(self.svm, open(model_filename, 'wb'))
+        pickle.dump(self.best_svm, open(model_filename, 'wb'))
 
     def load_model(self, model_filename):
-        self.svm = pickle.load(open(model_filename, 'rb'))
+        self.best_svm = pickle.load(open(model_filename, 'rb'))
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+csv_file_path = os.path.join(current_directory, '..', 'Dataset.csv')
+svm = SVMModelc(csv_file_path)
