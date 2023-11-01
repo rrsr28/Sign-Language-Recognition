@@ -1,0 +1,6 @@
+250 Epochs
+128 Batches
+
+samelearning rate
+
+cv keras

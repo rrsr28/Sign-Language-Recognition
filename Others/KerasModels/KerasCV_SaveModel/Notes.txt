@@ -1,0 +1,7 @@
+50 Epochs
+128 Batches
+0.001 Alpha
+
+CV Keras SaveModel
+
+1 till W
