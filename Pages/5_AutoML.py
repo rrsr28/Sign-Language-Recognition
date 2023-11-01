@@ -1,46 +1,31 @@
 import os
-import h2o
 import pandas as pd
 import autokeras as ak
-from h2o.automl import H2OAutoML
+import streamlit as st
 from sklearn.model_selection import train_test_split
+
+# Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
+st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
+
+st.markdown("""<h1 style='text-align: center;'>Sign Language CSV Dataset Collector</h1><hr><br>""", unsafe_allow_html=True)
+st.subheader("")
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 csv_file_path = os.path.join(current_directory, '..', 'Dataset.csv')
 
 data = pd.read_csv(csv_file_path)
-X = data.iloc[:, :-1]
-Y = data.iloc[:, -1]
 
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+X = data.iloc[:, :-1].values
+y = data.iloc[:, -1].values
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize an H2O cluster
-h2o.init()
-data = h2o.H2OFrame(data)
+clf = ak.StructuredDataClassifier(max_trials=10)
+clf.fit(X_train, y_train, epochs=10)
 
-x = data.columns[:-1]
-y = data.columns[-1]
+score = clf.evaluate(X_test, y_test)
+print(f"Test loss: {score[0]}, Test accuracy: {score[1]}")
 
-# Initialize AutoML
-aml = H2OAutoML(max_runtime_secs=600)
-aml.train(x=x, y=y, training_frame=data)
-lb = aml.leaderboard
-print(lb)
+predictions = clf.predict(X_test)
 
-# Get the best model
-best_model = aml.leader
-
-data = pd.read_csv(csv_file_path)
-X = data.iloc[:, :-1]
-Y = data.iloc[:, -1]
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
-
-# Convert the new data to an H2O frame
-h2o_new_data = h2o.H2OFrame(X_test)
-predictions = best_model.predict(h2o_new_data)
-
-# Print the predictions
-print(predictions)
-
-# Shutdown the H2O cluster
-h2o.shutdown()
+print("Best AutoKeras Model Summary:")
+clf.tuner.get_best_model().summary()

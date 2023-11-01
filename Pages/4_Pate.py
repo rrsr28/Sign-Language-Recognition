@@ -2,10 +2,17 @@ import os
 import copy
 import pickle
 import pandas as pd
+import streamlit as st
 from sklearn.svm import SVC
 from collections import Counter
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+
+# Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
+st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
+
+st.markdown("""<h1 style='text-align: center;'>Pate Algorithm</h1><hr><br>""", unsafe_allow_html=True)
+st.subheader("")
 
 columns = []
 for i in range(1, 22):
