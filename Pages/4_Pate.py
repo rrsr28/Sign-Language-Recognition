@@ -8,11 +8,18 @@ from collections import Counter
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
+def majority_voting(predictions):
+    global_predictions = []
+    for i in range(len(predictions[0])):
+        votes = [predictions[j][i] for j in range(num_clients)]
+        majority = Counter(votes).most_common(1)
+        global_predictions.append(majority[0][0])
+    return global_predictions
+
 # Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
 st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
 
-st.markdown("""<h1 style='text-align: center;'>Pate Algorithm</h1><hr><br>""", unsafe_allow_html=True)
-st.subheader("")
+st.write("The goal of this app is to demonstrate the PATE algorithm for private aggregation of teacher ensembles.")
 
 columns = []
 for i in range(1, 22):
@@ -24,8 +31,10 @@ csv_file_path = os.path.join(current_directory, '..', 'Dataset.csv')
 
 data = pd.read_csv(csv_file_path)
 data.columns = columns
+
 X = data.iloc[:, :-1]
 Y = data.iloc[:, -1]
+X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
 
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
 X = X_train
@@ -51,9 +60,12 @@ for round in range(num_rounds):
         client_models[i] = copy.deepcopy(global_model)
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
-csv_file_path = os.path.join(current_directory, '..', 'Models/FL_Client ')
+csv_file_path = os.path.join(current_directory, '..', 'Models/Pate_Client ')
 
 client_id = 0
+client_accuracies = []
+client_prediction = []
+
 for i in range(num_clients):
     client_id += 1
     client_models[i].fit(X_clients[i], Y_clients[i])
@@ -62,20 +74,16 @@ for i in range(num_clients):
         pickle.dump(client_models[i], model_file)
     print(f"Local model for client {client_id} saved to {model_filename}")
 
-client_predictions = []
-for i in range(num_clients):
-    client_prediction = client_models[i].predict(X_test)
-    client_predictions.append(client_prediction)
+    client_prediction.append(client_models[i].predict(X_test))
+    client_accuracy = accuracy_score(y_test, client_prediction[i])
+    client_accuracies.append(client_accuracy)
+    st.write(f"Client {i+1} Accuracy: {client_accuracy:.2f}")
 
-def majority_voting(predictions):
-    global_predictions = []
-    for i in range(len(predictions[0])):
-        votes = [predictions[j][i] for j in range(num_clients)]
-        majority = Counter(votes).most_common(1)
-        global_predictions.append(majority[0][0])
-    return global_predictions
+global_predictions = majority_voting(client_prediction)
+global_accuracy = accuracy_score(y_test, global_predictions)
 
-global_predictions = majority_voting(client_predictions)
+st.write("Global Model Accuracy:", global_accuracy)
 
-accuracy = accuracy_score(y_test, global_predictions)
-print("Accuracy:", accuracy)
+with open("PateGlobal.pkl", 'wb') as model_file:
+    pickle.dump(global_model, model_file)
+st.write("Saved Global Model to PateGlobal.pkl")
