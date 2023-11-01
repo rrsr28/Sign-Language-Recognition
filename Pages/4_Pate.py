@@ -19,6 +19,7 @@ def majority_voting(predictions):
 # Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
 st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
 
+st.markdown("""<h1 style='text-align: center;'>PATE Alogirthm</h1><hr><br>""", unsafe_allow_html=True)
 st.write("The goal of this app is to demonstrate the PATE algorithm for private aggregation of teacher ensembles.")
 
 columns = []
@@ -84,6 +85,6 @@ global_accuracy = accuracy_score(y_test, global_predictions)
 
 st.write("Global Model Accuracy:", global_accuracy)
 
-with open("PateGlobal.pkl", 'wb') as model_file:
+csv_file_path = os.path.join(current_directory, '..', "Models/PateGlobal.pkl")
+with open(csv_file_path, 'wb') as model_file:
     pickle.dump(global_model, model_file)
-st.write("Saved Global Model to PateGlobal.pkl")

@@ -1,16 +1,16 @@
+import os
 import pickle
 import pandas as pd
-import numpy as np
 import streamlit as st
 from lime.lime_tabular import LimeTabularExplainer
 from sklearn.metrics import accuracy_score, classification_report, f1_score, recall_score, precision_score
-import matplotlib.pyplot as plt
 
 # Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
 st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
 
-# Load your trained SVM model
-with open('Models/SVMModel.pkl', 'rb') as model_file:
+current_directory = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(current_directory, '..', "Models/SVMModel.pkl")
+with open(file_path, 'rb') as model_file:
     svm_model = pickle.load(model_file)
 
 columns = []
