@@ -37,12 +37,15 @@ X = data.iloc[:, :-1]
 Y = data.iloc[:, -1]
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
 
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
 X = X_train
 Y = y_train
 
 num_clients = 5
 num_rounds = 5
+
+model_file_path = 'Models/SVMModel.pkl'
+with open(model_file_path, 'rb') as model_file:
+    svm_model = pickle.load(model_file)
 
 global_model = SVC(C=10, gamma=0.1, kernel='rbf')
 
