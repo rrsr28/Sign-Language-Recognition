@@ -82,7 +82,3 @@ class SVMModelc:
 
     def load_model(self, model_filename):
         self.best_svm = pickle.load(open(model_filename, 'rb'))
-
-current_directory = os.path.dirname(os.path.abspath(__file__))
-csv_file_path = os.path.join(current_directory, '..', 'Dataset.csv')
-svm = SVMModelc(csv_file_path)

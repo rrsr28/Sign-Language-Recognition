@@ -4,10 +4,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import mediapipe as mp
-from sklearn.model_selection import GridSearchCV
-
-"""from Models import SVMModel
-from Models.SVMModel import SVMModelc"""
+from Models import SVMModel
+from Models.SVMModel import SVMModelc
 
 # Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
 st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
@@ -104,14 +102,15 @@ def make_csv():
     file_name.close()
     st.success('CSV Created Successfully !')
 
-"""def build_model_svc():
+def build_model_svc():
     svm = SVMModelc('Dataset.csv')
-    svm.save_model('Models/SVMModel.pkl')"""
+    st.write("Model Built !")
+    svm.save_model('Models/SVMModel.pkl')
 
 make_csv()
 df = pd.read_csv('Dataset.csv', header=None, names=columns)
 st.dataframe(df)
 
-#build_model_svc()
+build_model_svc()
 # {'C': 10, 'degree': 2, 'gamma': 1, 'kernel': 'poly'}
 # 0.9835897435897436

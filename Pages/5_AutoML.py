@@ -45,6 +45,4 @@ st.write("Number of Epochs: 10")
 st.write("Test Loss:", score[0])
 st.write("Test Accuracy:", score[1])
 
-# Predictions
-st.subheader("Predictions")
 predictions = clf.predict(X_test)

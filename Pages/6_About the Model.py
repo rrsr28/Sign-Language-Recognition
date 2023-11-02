@@ -2,16 +2,13 @@ import os
 import pickle
 import pandas as pd
 import streamlit as st
+from sklearn.svm import SVC
 from lime.lime_tabular import LimeTabularExplainer
 from sklearn.metrics import accuracy_score, classification_report, f1_score, recall_score, precision_score
 
 # Set Streamlit theme to dark, enable "Run on Save," and set default layout to wide
 st.set_page_config(page_title="Sign Language Recognizer", page_icon="👐", layout="wide")
 
-current_directory = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(current_directory, '..', "Models/SVMModel.pkl")
-with open(file_path, 'rb') as model_file:
-    svm_model = pickle.load(model_file)
 
 columns = []
 for i in range(1, 22):
@@ -22,6 +19,9 @@ data = pd.read_csv('Dataset.csv')
 data.columns = columns
 X = data.iloc[:, :-1]
 y = data.iloc[:, -1]
+
+svm_model = SVC(C=10, gamma=1, kernel='poly', probability=True)  # Enable probability estimates
+svm_model.fit(X, y)
 y_pred = svm_model.predict(X)
 
 st.title("Sign Language Gesture Recognition")
