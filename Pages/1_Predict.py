@@ -57,6 +57,11 @@ st.write("""
 - The model is trained on a dataset of hand signs, capturing the 3D coordinates (x, y, z) of 21 hand landmarks.
 - Hand signs are recognized in real-time using the webcam feed.""")
 
+st.markdown("<br><hr><br>", unsafe_allow_html=True)
+
+prediction_placeholder = st.empty()
+video_frame_placeholder = st.empty()
+
 cap = cv2.VideoCapture(0)
 if not cap.isOpened():
     st.error("Cannot open camera. Please check your camera connection.")
@@ -79,16 +84,16 @@ while True:
     font = cv2.FONT_HERSHEY_SIMPLEX
     org = (50, 100)
     font_scale = 3
-    color = (255, 0, 0)
+    color = (0, 0, 255)
     thickness = 5
-    frame = cv2.putText(frame, str(y_pred[0]), org, font, font_scale, color, thickness, cv2.LINE_AA)
 
     if len(data) > 0:
-            hand_bbox = cv2.boundingRect(np.array(data_2d[:, :2], dtype=int))
-            x, y, w, h = hand_bbox
-            frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        hand_bbox = cv2.boundingRect(np.array(data_2d[:, :2], dtype=int))
+        x, y, w, h = hand_bbox
+        frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    cv2.imshow('Video', frame)
+    prediction_placeholder.markdown(f"""<h1>Prediction: {str(y_pred[0])}</h1>""", unsafe_allow_html=True)
+    video_frame_placeholder.image(frame, channels="BGR")
 
     if cv2.waitKey(1) == ord('q'):
         break

@@ -57,7 +57,7 @@ with tabs[3]:
     st.write("You can view the LIME explanation for a specific instance below. This explanation shows the feature "
              "importance for a sample from the dataset.")
 
-    instance_idx = 25  # Replace with the index of the instance you want to explain
+    instance_idx = 1  # Replace with the index of the instance you want to explain
     instance = X.iloc[instance_idx].values
 
     feature_names = X.columns
