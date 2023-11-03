@@ -22,14 +22,17 @@ class SVMModelc:
 
         X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
 
-        param_grid = {
+        """
+        param_grid = { 
             'C': [0.1, 1, 10],
             'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
             'gamma': [0.01, 0.1, 1],
             'degree': [2, 3, 4]
         }
+        """
 
-        grid_search = GridSearchCV(SVC(), param_grid, cv=5, scoring='accuracy')
+        #grid_search = GridSearchCV(SVC(), param_grid, cv=5, scoring='accuracy')
+        grid_search = SVC(C=10, gamma=1, kernel='poly') # The best model
         grid_search.fit(X_train, y_train)
 
         best_params = grid_search.best_params_

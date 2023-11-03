@@ -47,7 +47,7 @@ model_file_path = 'Models/SVMModel.pkl'
 with open(model_file_path, 'rb') as model_file:
     svm_model = pickle.load(model_file)
 
-global_model = SVC(C=10, gamma=0.1, kernel='rbf')
+global_model = SVC(C=10, gamma=1, kernel='poly')
 
 client_models = [copy.deepcopy(global_model) for _ in range(num_clients)]
 X_clients = [X[i:i + len(X) // num_clients] for i in range(0, len(X), len(X) // num_clients)]

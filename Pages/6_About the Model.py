@@ -32,9 +32,9 @@ with tabs[0]:
     st.header("Model Details")
     st.write(
         "This model was trained to recognize sign language gestures using a Support Vector Machine (SVM) classifier.")
-    st.write("SVM Kernel: Radial Basis Function (RBF)")
+    st.write("SVM Kernel: Polynomial Kernel (poly)")
     st.write("C: 10")
-    st.write("Gamma: 0.1")
+    st.write("Gamma: 1")
 
 with tabs[1]:
     st.header("Dataset Information")
