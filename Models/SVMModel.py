@@ -35,17 +35,17 @@ class SVMModelc:
         grid_search = SVC(C=10, gamma=1, kernel='poly') # The best model
         grid_search.fit(X_train, y_train)
 
-        best_params = grid_search.best_params_
+        #best_params = grid_search.best_params_
 
-        best_svm = SVC(**best_params)
-        best_svm.fit(X_train, y_train)
-        y_pred = best_svm.predict(X_test)
+        #best_svm = SVC(**best_params)
+        #best_svm.fit(X_train, y_train)
+        y_pred = grid_search.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
 
-        print(best_params)
+        #print(best_params)
         print(accuracy)
 
-        return best_svm
+        return grid_search
 
     def __init__(self, dataset_file):
         self.dataset_file = dataset_file
