@@ -50,7 +50,7 @@ The Sign Language Recognition project is designed to recognize and interpret sig
 ## Usage
 
 1. Start the project by running the Streamlit application.
-2. Use the "Sign Language CSV Dataset Collector" tool to collect data and create a dataset.
+2. Use the "Sign Language CSV Dataset Collector" page to collect data and create a dataset.
 3. Interact with the SVM model for real-time sign language recognition.
 4. Explore the features and functionalities provided by the project.
 
