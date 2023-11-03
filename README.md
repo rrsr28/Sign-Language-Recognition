@@ -13,7 +13,7 @@ The Sign Language Recognition project is designed to recognize and interpret sig
 - **SVM Model**: Employs a Support Vector Machine (SVM) model for sign language recognition. The model is trained on a dataset of hand landmarks and labels, enabling it to classify hand signs.
 
 - **User Interface**: Incorporates a user-friendly interface using Streamlit, allowing users to interact with the model and view recognition results in real-time.
-- 
+
 ## Getting Started
 
 ### Prerequisites
